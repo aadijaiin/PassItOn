@@ -1,53 +1,73 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { Mail, PlusCircle, Compass, Heart } from 'lucide-react';
-import { LogoutButton } from '@/components/LogoutButton';
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Mail, PlusCircle, Compass, User, Heart } from "lucide-react";
+import { LogoutButton } from "@/components/LogoutButton";
 
 export default function HomePage() {
   const router = useRouter();
 
   return (
     <div className="min-h-screen bg-[#faf7ed] flex flex-col items-center w-full">
-
-      {/* NAVIGATION HEADER updated */}
+      {/* NAVIGATION HEADER */}
       <header className="w-full bg-[#5B3DF6] flex items-center justify-between px-6 py-5">
         {/* Logo with startup name */}
-        <div className="flex items-center gap-3 cursor-pointer select-none" onClick={() => router.push('/')}>
-          <span className="inline-block p-1 rounded-full border-2 border-white shadow-md">
+        <div
+          className="flex items-center gap-3 cursor-pointer select-none"
+          onClick={() => router.push("/")}
+        >
+          <span className="inline-flex items-center justify-center p-1 rounded-full border-2 border-white shadow-md">
             <Image
               src="/logo2.jpeg"
               alt="Brand Logo"
               width={42}
               height={42}
-              className="rounded-full"
+              className="rounded-full "
               priority
             />
           </span>
-          <span className="text-white font-bold tracking-wider text-lg md:text-xl"
-                style={{
-                  letterSpacing: '0.13em',
-                  fontFamily: "'Montserrat', 'Inter', Arial, sans-serif"
-                }}
+          <span
+            className="text-white font-bold tracking-wider text-lg md:text-xl"
+            style={{
+              letterSpacing: "0.13em",
+              fontFamily: "'Montserrat', 'Inter', Arial, sans-serif",
+            }}
           >
             PASS IT ON
           </span>
         </div>
         <div className="flex items-center gap-4">
+          {/* Desktop/Laptop: Profile icon */}
+          <motion.button
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.94 }}
+            className="md:flex items-center justify-center bg-white hover:bg-[#E0D5FA] text-[#5B3DF6] rounded-full p-2 transition shadow "
+            style={{ width: 40, height: 40 }}
+            onClick={() => router.push("/dashboard")}
+            aria-label="Dashboard"
+          >
+            <User size={22} className="mx-auto my-auto" />
+          </motion.button>
           <LogoutButton />
         </div>
       </header>
 
+      {/* Mobile: Profile icon above hero */}
+
       {/* HERO SECTION */}
       <section
         className="w-full flex flex-col md:flex-row items-center justify-between px-6 pt-8 pb-10 bg-[#03B1AA]"
-        style={{ borderBottomLeftRadius: '32px', borderBottomRightRadius: '32px' }}
+        style={{
+          borderBottomLeftRadius: "32px",
+          borderBottomRightRadius: "32px",
+        }}
       >
         <div className="flex-1 flex flex-col gap-7">
           <h1 className="font-black text-4xl md:text-5xl leading-tight text-white">
-             <span className="text-[#FFE158]">PASS</span> Karo,<span className="text-[#FFE158]"> EARN</span> Karo <br />
+            <span className="text-[#FFE158]">PASS</span> Karo,
+            <span className="text-[#FFE158]"> EARN</span> Karo <br />
           </h1>
           <div className="flex items-center mt-1">
             {/* <div className="bg-[#faf7ed] rounded-full flex items-center px-5 py-[10px] w-full max-w-xs shadow-md">
@@ -68,7 +88,7 @@ export default function HomePage() {
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.97 }}
               className="bg-[#FFE158] hover:bg-[#ffd900] text-[#23185B] font-bold flex items-center gap-2 px-6 py-3 rounded-full shadow-lg transition-all text-base"
-              onClick={() => router.push('/seller')}
+              onClick={() => router.push("/seller")}
             >
               <PlusCircle size={20} />
               List an item
@@ -77,7 +97,7 @@ export default function HomePage() {
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.97 }}
               className="bg-[#5B3DF6] hover:bg-[#3b278e] text-white font-bold flex items-center gap-2 px-6 py-3 rounded-full shadow-lg transition-all text-base"
-              onClick={() => router.push('/buyer')}
+              onClick={() => router.push("/buyer")}
             >
               <Compass size={20} />
               Browse for items
@@ -97,34 +117,55 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED LISTINGS */}
-     <section className="w-full max-w-5xl px-6 pt-12 pb-10">
+      <section className="w-full max-w-5xl px-6 pt-12 pb-10">
         <div className="bg-[#fff9e8] w-full rounded-2xl shadow-md py-8 px-6 flex flex-col">
-          <h2 className="text-2xl font-bold text-[#23185B] mb-7">Featured Listings</h2>
+          <h2 className="text-2xl font-bold text-[#23185B] mb-7">
+            Featured Listings
+          </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-7">
             <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
               <Image src="/icons/book.png" alt="Book" width={54} height={54} />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">Textbooks</span>
+              <span className="mt-2 font-semibold text-lg text-[#23185B]">
+                Textbooks
+              </span>
               <span className="text-[#23185B]">$15</span>
             </div>
             <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
-              <Image src="/coset.jpg" alt="Game Console" width={54} height={54} />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">Co-Set</span>
+              <Image
+                src="/coset.jpg"
+                alt="Game Console"
+                width={54}
+                height={54}
+              />
+              <span className="mt-2 font-semibold text-lg text-[#23185B]">
+                Co-Set
+              </span>
               <span className="text-[#23185B]">₹700</span>
             </div>
             <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
               <Image src="/laptop.jpg" alt="Book" width={54} height={54} />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">Laptop</span>
+              <span className="mt-2 font-semibold text-lg text-[#23185B]">
+                Laptop
+              </span>
               <span className="text-[#23185B]">₹10000</span>
             </div>
             <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
-              <Image src="/icons/headphones.png" alt="Headphones" width={54} height={54} />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">Headphones</span>
+              <Image
+                src="/icons/headphones.png"
+                alt="Headphones"
+                width={54}
+                height={54}
+              />
+              <span className="mt-2 font-semibold text-lg text-[#23185B]">
+                Headphones
+              </span>
               <span className="text-[#23185B]">$30</span>
             </div>
           </div>
           <div className="mt-10 bg-[#ffedc2] text-center rounded-xl p-5 border border-[#ffd46b] shadow-md animate-pulse">
             <p className="text-lg font-semibold text-[#23185B]">
-              📞 For more information, contact us at <span className="text-[#D93D04]">8273145433</span>
+              📞 For more information, contact us at{" "}
+              <span className="text-[#D93D04]">8273145433</span>
             </p>
           </div>
         </div>
@@ -133,33 +174,56 @@ export default function HomePage() {
       {/* HOW IT WORKS */}
       <section className="w-full max-w-5xl px-6 pt-4 pb-10">
         <div className="bg-[#ffefa9] w-full rounded-2xl shadow-md py-8 px-6 flex flex-col">
-          <h2 className="text-2xl font-bold text-[#23185B] mb-7 px-2">How It Works</h2>
+          <h2 className="text-2xl font-bold text-[#23185B] mb-7 px-2">
+            How It Works
+          </h2>
           <div className="flex flex-col md:flex-row justify-between items-center gap-9">
             <div className="flex flex-col items-center flex-1">
               <div className="bg-[#5B3DF6] p-3 rounded-full mb-2">
-                <Image src="/icons/signup.png" alt="Sign Up" width={38} height={38} />
+                <Image
+                  src="/icons/signup.png"
+                  alt="Sign Up"
+                  width={38}
+                  height={38}
+                />
               </div>
               <div className="font-bold text-[#23185B] mb-1">Sign Up</div>
               <div className="text-[#23185B] text-center text-sm font-medium">
-                Create an account<br />with your student email
+                Create an account
+                <br />
+                with your student email
               </div>
             </div>
             <div className="flex flex-col items-center flex-1">
               <div className="bg-[#03B1AA] p-3 rounded-full mb-2">
-                <Image src="/icons/list.png" alt="List Items" width={38} height={38} />
+                <Image
+                  src="/icons/list.png"
+                  alt="List Items"
+                  width={38}
+                  height={38}
+                />
               </div>
               <div className="font-bold text-[#23185B] mb-1">List Items</div>
               <div className="text-[#23185B] text-center text-sm font-medium">
-                Upload your items for<br />sale in just minutes
+                Upload your items for
+                <br />
+                sale in just minutes
               </div>
             </div>
             <div className="flex flex-col items-center flex-1">
               <div className="bg-[#FFE158] p-3 rounded-full mb-2">
-                <Image src="/icons/connect.png" alt="Connect" width={38} height={38} />
+                <Image
+                  src="/icons/connect.png"
+                  alt="Connect"
+                  width={38}
+                  height={38}
+                />
               </div>
               <div className="font-bold text-[#23185B] mb-1">Connect</div>
               <div className="text-[#23185B] text-center text-sm font-medium">
-                Chat with other<br />students and arrange
+                Chat with other
+                <br />
+                students and arrange
               </div>
             </div>
           </div>
@@ -180,7 +244,7 @@ export default function HomePage() {
           </span>
           <button
             className="ml-auto bg-[#5B3DF6] hover:bg-[#3b278e] transition text-white font-bold px-7 py-2 rounded-full text-base shadow"
-            onClick={() => router.push('/seller')}
+            onClick={() => router.push("/seller")}
           >
             List an item
           </button>
@@ -198,10 +262,16 @@ export default function HomePage() {
         <div className="w-full max-w-2xl bg-[#fff9e8] border-2 rounded-3xl shadow-lg p-7 flex flex-col items-center">
           <div className="flex items-center gap-2 mb-2">
             <Heart size={28} className="text-pink-400" />
-            <h2 className="text-2xl font-bold text-[#5B3DF6]">Wish for Something?</h2>
+            <h2 className="text-2xl font-bold text-[#5B3DF6]">
+              Wish for Something?
+            </h2>
           </div>
           <p className="text-[#7c689c] text-base mb-6 text-center">
-            Didn’t find what you want? <span className="text-[#e11d48] font-semibold">Submit your wish</span> &amp; we’ll let sellers know!
+            Didn’t find what you want?{" "}
+            <span className="text-[#e11d48] font-semibold">
+              Submit your wish
+            </span>{" "}
+            &amp; we’ll let sellers know!
           </p>
           <form
             className="w-full flex flex-col gap-4 items-center"
@@ -212,7 +282,8 @@ export default function HomePage() {
               const itemRaw = formData.get("item");
               const item = typeof itemRaw === "string" ? itemRaw.trim() : "";
               const detailsRaw = formData.get("details");
-              const details = typeof detailsRaw === "string" ? detailsRaw.trim() : "";
+              const details =
+                typeof detailsRaw === "string" ? detailsRaw.trim() : "";
               if (!item) {
                 alert("Please enter what you're looking for");
                 return;
@@ -258,13 +329,17 @@ export default function HomePage() {
       <footer className="w-full pb-7 flex flex-col items-center gap-2 text-[#736a6a] text-[13px]">
         <motion.button
           whileHover={{ scale: 1.05, color: "#03B1AA" }}
-          onClick={() => window.location.href = "mailto:freakyakkmu@gmail.com"}
+          onClick={() =>
+            (window.location.href = "mailto:freakyakkmu@gmail.com")
+          }
           className="flex items-center gap-2 text-[#5B3DF6] font-semibold mt-2 transition-colors"
         >
           <Mail size={18} />
           Contact Us
         </motion.button>
-        <span className="text-xs">© 2025 Passion Writers. All rights reserved.</span>
+        <span className="text-xs">
+          © 2025 Passion Writers. All rights reserved.
+        </span>
       </footer>
     </div>
   );

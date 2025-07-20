@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const products = await Product.find({
       category: { $regex: new RegExp(`^${category}$`, 'i') },
     })
-      .select('title image price college category email phone')
+      .select('title image price college category email phone sold')
       .sort({ createdAt: -1 });
 
     return NextResponse.json({ products });

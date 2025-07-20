@@ -9,6 +9,7 @@ const ProductSchema = new Schema({
   email: { type: String, required: true }, // ✅ new
   phone: { type: String, required: true }, // ✅ new
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
+  sold: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

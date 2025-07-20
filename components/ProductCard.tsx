@@ -11,6 +11,7 @@ interface Props {
     category: string;
     email?: string;
     phone?: string;
+    sold?: boolean;
   };
 }
 
@@ -27,17 +28,33 @@ const categoryColor = (cat: string) => {
 };
 
 export function ProductCard({ product }: Props) {
+  console.log(product); // Debug: show product details
   return (
+    //<div style={{display: 'none'}}>{JSON.stringify(product)}</div>
     <Link href={`/product/${product._id}`} prefetch={false}>
       <motion.div
         whileHover={{ scale: 1.04, boxShadow: '0 8px 32px 0 rgba(120,80,210,0.10)' }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-        className="bg-white rounded-3xl shadow-xl border-2 border-[#E0D5FA] pb-5 overflow-hidden cursor-pointer transition-all group"
+        className="relative bg-white rounded-3xl shadow-xl border-2 border-[#E0D5FA] pb-5 overflow-hidden cursor-pointer transition-all group"
         style={{
           minHeight: 380
         }}
       >
+        {product.sold && (
+          <span className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 rounded-full bg-green-200 text-green-700 font-bold text-xs z-10">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+              <path
+                d="M5 13l4 4L19 7"
+                stroke="#15803d"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Sold
+          </span>
+        )}
         <div className="px-4 pt-4">
           <div className="w-full h-44 flex justify-center items-center rounded-2xl bg-[#faf7ed] relative overflow-hidden shadow-md border-2 border-[#f3e8ff]">
             <img
