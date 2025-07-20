@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { CheckCircle, XCircle, Loader2, Eye, Heart } from 'lucide-react';
+import { UserInfoCard } from '@/components/UserInfoCard';
 
 type Product = {
   _id: string;
@@ -49,13 +50,15 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#faf7ed] flex flex-col items-center py-10 px-4">
+      
       <motion.h1
         className="text-3xl sm:text-4xl font-black text-[#5B3DF6] mb-7 text-center"
         initial={{ opacity: 0, y: -18 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        My Dashboard
+        Dashboard
       </motion.h1>
+      <UserInfoCard />
       <div className="w-full max-w-5xl bg-white/90 rounded-3xl shadow-2xl border-2 border-[#E0D5FA] p-8 flex flex-col">
         <h2 className="text-xl font-bold text-[#23185B] mb-5">My Listings</h2>
         {loading ? (
