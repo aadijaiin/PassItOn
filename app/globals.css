@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-
-
 /* rest of your CSS comes after */
 :root {
   --background: #ffffff;
@@ -13,6 +11,13 @@
   position: relative;
   
   /* overflow: hidden; */
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.animate-slideInLeft {
+  animation: slideInLeft 0.25s cubic-bezier(0.4,0,0.2,1);
 }
 
 /* .shimmer-effect {
