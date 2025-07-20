@@ -133,7 +133,7 @@ export default function SellerPage() {
               className="px-5 py-3 rounded-full bg-[#faf7ed] border-2 border-[#E0D5FA] text-[#23185B] focus:ring-2 focus:ring-[#5B3DF6] focus:outline-none text-base shadow placeholder-[#a78bfa] font-semibold transition"
             />
             <input
-              type="text"
+              type="number"
               name="price"
               placeholder="Price (INR)"
               value={formData.price}
