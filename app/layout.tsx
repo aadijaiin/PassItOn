@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { ClientNavBarWrapper } from "@/components/ClientNavBarWrapper";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // This hook only works in client components, so wrap NavBar in a client component
   return (
     <html lang="en">
       <head>
@@ -31,8 +33,11 @@ export default function RootLayout({
         style={{ fontFamily: 'Sora, sans-serif' }}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ClientNavBarWrapper />
         {children}
       </body>
     </html>
   );
 }
+
+// Client component to conditionally render NavBar
