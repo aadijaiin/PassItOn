@@ -4,6 +4,31 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { PlusCircle, UploadCloud } from "lucide-react";
 
+// Title validation: 5-60 chars, not only numbers/symbols, not repeated numbers
+function isValidTitle(title: string) {
+  if (title.length < 5 || title.length > 60) return false;
+  if (/^[^a-zA-Z0-9]+$/.test(title)) return false; // only symbols
+  if (/^(\d)\1+$/.test(title)) return false; // repeated numbers
+  if (/^\d+$/.test(title)) return false; // only numbers
+  return true;
+}
+
+// Description validation: min 20 chars, no links/emails
+function isValidDescription(desc: string) {
+  if (desc.length < 20) return false;
+  if (/(https?:\/\/|www\.|@)/i.test(desc)) return false; // no links/emails
+  return true;
+}
+
+const allowedCategories = [
+  "Books",
+  "Electronics",
+  "Furniture",
+  "Clothing",
+  "Stationery",
+  "Other",
+];
+
 export default function SellerPage() {
   const [formData, setFormData] = useState({
     title: "",
@@ -12,13 +37,16 @@ export default function SellerPage() {
     image: "",
     college: "KIET Group of Institutions",
     phone: "",
+    description: "",
   });
 
   const [status, setStatus] = useState("");
   const [uploading, setUploading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     if (name === "phone" && !/^\d{0,10}$/.test(value)) return;
@@ -51,10 +79,23 @@ export default function SellerPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { title, price, phone } = formData;
+    const { title, price, phone, description, category, image } = formData;
     const numericPrice = parseInt(price);
-    if (title.trim().length < 3) {
-      setStatus("❌ Title must be at least 3 characters.");
+
+    if (!isValidTitle(title.trim())) {
+      setStatus("❌ Title must be 5-60 characters, not just numbers/symbols.");
+      return;
+    }
+    if (!allowedCategories.includes(category)) {
+      setStatus("❌ Please select a valid category.");
+      return;
+    }
+    if (!isValidDescription(description.trim())) {
+      setStatus("❌ Description must be at least 20 characters, no links/emails.");
+      return;
+    }
+    if (!image) {
+      setStatus("❌ Please upload a product image.");
       return;
     }
     if (isNaN(numericPrice) || numericPrice < 10 || numericPrice > 50000) {
@@ -81,6 +122,7 @@ export default function SellerPage() {
           image: "",
           college: "KIET Group of Institutions",
           phone: "",
+          description: "",
         });
       } else {
         setStatus("❌ Failed to submit. Try again.");
@@ -167,6 +209,17 @@ export default function SellerPage() {
             </select>
           </div>
 
+          {/* DESCRIPTION FIELD */}
+          <textarea
+            name="description"
+            placeholder="Describe your item (at least 20 characters, no links/emails)"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            minLength={20}
+            className="px-5 py-3 rounded-2xl bg-[#faf7ed] border-2 border-[#E0D5FA] text-[#23185B] focus:ring-2 focus:ring-[#5B3DF6] focus:outline-none text-base shadow placeholder-[#a78bfa] font-semibold transition resize-none"
+          />
+
           {/* IMAGE UPLOAD */}
           <div className="w-full flex flex-col gap-2 pt-2">
             <label className="text-base font-bold text-[#5B3DF6] flex items-center gap-1">
@@ -238,5 +291,5 @@ export default function SellerPage() {
         </motion.form>
       </div>
     </div>
-  );
+  )
 }
