@@ -12,13 +12,14 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#faf7ed] flex flex-col items-center w-full">
       {/* NAVIGATION HEADER */}
-      <header className="w-full bg-[#5B3DF6] flex items-center justify-between px-6 py-5">
+      <header className="w-full bg-[#FDF6FF] flex items-center justify-between px-6 py-5">
         {/* Logo with startup name */}
+
         <div
           className="flex items-center gap-3 cursor-pointer select-none"
           onClick={() => router.push("/")}
         >
-          <span className="inline-flex items-center justify-center p-1 rounded-full border-2 border-white shadow-md">
+          <span className="inline-flex items-center justify-center p-1 rounded-full border-2 border-[#5B3DF6] shadow-md">
             <Image
               src="/logo2.jpeg"
               alt="Brand Logo"
@@ -29,13 +30,13 @@ export default function HomePage() {
             />
           </span>
           <span
-            className="text-white font-bold tracking-wider text-lg md:text-xl"
+            className="text-[#5B3DF6] font-bold tracking-wider text-lg md:text-xl"
             style={{
               letterSpacing: "0.13em",
               fontFamily: "'Montserrat', 'Inter', Arial, sans-serif",
             }}
           >
-            PASS IT ON
+            PASSITON
           </span>
         </div>
         <div className="flex items-center gap-4">
@@ -54,36 +55,56 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Mobile: Profile icon above hero */}
-
       {/* HERO SECTION */}
       <section
-        className="w-full flex flex-col md:flex-row items-center justify-between px-6 pt-8 pb-10 bg-[#03B1AA]"
-        style={{
-          borderBottomLeftRadius: "32px",
-          borderBottomRightRadius: "32px",
-        }}
+        className="w-full flex flex-col md:flex-row items-center justify-between px-6 pt-10 pb-14 bg-gradient-to-br from-[#5B3DF6] via-[#755FF5] to-[#02afa5]"
+        // style={{
+        //   borderBottomLeftRadius: "32px",
+        //   borderBottomRightRadius: "32px",
+          
+        // }}
       >
-        <div className="flex-1 flex flex-col gap-7">
-          <h1 className="font-black text-4xl md:text-5xl leading-tight text-white">
-            <span className="text-[#FFE158]">PASS</span> Karo,
-            <span className="text-[#FFE158]"> EARN</span> Karo <br />
+        <div className="flex-1 flex flex-col gap-6">
+          <h1
+            className="font-extrabold text-4xl md:text-5xl lg:text-6xl text-white leading-tight drop-shadow-md"
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            <span className="text-[#FFE158] animate-pulse">PASS</span> Karo,{" "}
+            <span className="text-[#FFE158] animate-bounce">EARN</span> Karo
           </h1>
-          <div className="flex items-center mt-1">
-            {/* <div className="bg-[#faf7ed] rounded-full flex items-center px-5 py-[10px] w-full max-w-xs shadow-md">
-              <svg className="w-5 h-5 text-[#5B3DF6] mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <input
-                className="bg-transparent w-full outline-none text-base text-[#23185B] placeholder-[#23185B] font-medium"
-                placeholder="Search listings..."
-                type="text"
-              />
-            </div> */}
-          </div>
-          {/* BUTTON ROW under search bar */}
-          <div className="flex gap-4 mt-2">
+
+          <p
+            className="text-2xl md:text-3xl font-semibold text-white tracking-tight italic"
+            style={{
+              fontFamily: "'Satisfy', cursive",
+              textShadow: "0 2px 4px rgba(0,0,0,0.2)",
+            }}
+          >
+            College life gets better with{" "}
+            <span className="relative font-extrabold text-[#FFE158] px-2 py-1 rounded-md bg-white/10 shimmer not-button">
+              PassItOn
+              <span className="absolute inset-0 shimmer-effect rounded-md pointer-events-none"></span>
+            </span>{" "}
+            🎒📚
+          </p>
+
+          {/* <p
+      className="text-lg md:text-xl text-white/90 font-medium mt-2"
+      style={{
+        fontFamily: "'Nunito', sans-serif",
+      }}
+    >
+      Buy, sell & swap in your campus community.
+      <br />
+      <span className="text-[#FFE158] font-bold">
+        Save money. Save waste. Earn joy.
+      </span>
+    </p> */}
+
+          {/* BUTTONS */}
+          <div className="flex gap-4 mt-4">
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.97 }}
@@ -96,7 +117,7 @@ export default function HomePage() {
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-[#5B3DF6] hover:bg-[#3b278e] text-white font-bold flex items-center gap-2 px-6 py-3 rounded-full shadow-lg transition-all text-base"
+              className="bg-white hover:bg-[#e0d5fa] text-[#5B3DF6] font-bold flex items-center gap-2 px-6 py-3 rounded-full shadow-lg transition-all text-base"
               onClick={() => router.push("/buyer")}
             >
               <Compass size={20} />
@@ -104,12 +125,14 @@ export default function HomePage() {
             </motion.button>
           </div>
         </div>
+
+        {/* Illustration */}
         <div className="flex-1 w-full flex justify-center items-center mt-8 md:mt-0">
           <Image
             src="/student-illustration.svg"
             alt="Student illustration"
-            width={300}
-            height={300}
+            width={320}
+            height={320}
             className="object-contain"
             priority
           />
