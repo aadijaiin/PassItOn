@@ -40,13 +40,13 @@ export async function middleware(request: NextRequest) {
 
   if (!token) {
     // Optionally redirect to /auth/login if that's your entry login
-    return NextResponse.redirect(new URL('/auth', request.url));
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
   const payload = await verifyJWT(token);
 
   if (!payload) {
-    return NextResponse.redirect(new URL('/auth', request.url));
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
   return NextResponse.next();

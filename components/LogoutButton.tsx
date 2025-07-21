@@ -1,20 +1,36 @@
 "use client";
-import { LogOut } from "lucide-react";
+
+import { LogOut, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export function LogoutButton() {
   const router = useRouter();
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        const data = await res.json();
+        setLoggedIn(data.loggedIn);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        setLoggedIn(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/auth/logout", { method: "POST" });
 
       if (res.ok) {
-        // Redirect to login after clearing cookie
-        router.push("/auth/login");
+        window.location.href = "/";
       } else {
-        // Optional: handle errors gracefully
         alert("Failed to logout. Please try again.");
       }
     } catch (error) {
@@ -23,11 +39,17 @@ export function LogoutButton() {
     }
   };
 
+  const handleLoginRedirect = () => {
+    router.push("/auth/login"); // 👈 Redirect to login page
+  };
+
+  if (loggedIn === null) return null; // Or show a spinner
+
   return (
     <motion.button
       whileHover={{ scale: 1.07 }}
       whileTap={{ scale: 0.96 }}
-      onClick={handleLogout}
+      onClick={loggedIn ? handleLogout : handleLoginRedirect}
       type="button"
       className="
         flex items-center gap-2
@@ -44,10 +66,10 @@ export function LogoutButton() {
         focus:ring-2 focus:ring-offset-2 focus:ring-[#5B3DF6]
         text-base
       "
-      title="Logout"
+      title={loggedIn ? "Logout" : "Login"}
     >
-      <LogOut size={18} strokeWidth={2} />
-      Logout
+      {loggedIn ? <LogOut size={18} /> : <LogIn size={18} />}
+      {loggedIn ? "Logout" : "Login"}
     </motion.button>
   );
 }
