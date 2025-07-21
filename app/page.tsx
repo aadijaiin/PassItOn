@@ -4,41 +4,28 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Mail, PlusCircle, Compass, User, Heart, Menu, X } from "lucide-react";
+import { Mail, PlusCircle, Compass, Heart } from "lucide-react";
 import { LogoutButton } from "@/components/LogoutButton";
 
 export default function HomePage() {
   const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#faf7ed] flex flex-col items-center w-full">
-      {/* NavBar */}
-      
-      
-
       {/* HERO SECTION */}
-      <section
-        className="w-full flex flex-col md:flex-row items-center justify-between px-6 pt-10 pb-14 bg-gradient-to-br from-[#5B3DF6] via-[#755FF5] to-[#02afa5]"
-        // style={{
-        //   borderBottomLeftRadius: "32px",
-        //   borderBottomRightRadius: "32px",
-
-        // }}
-      >
-        <div className="flex-1 flex flex-col gap-6">
+      <section className="w-full flex flex-col md:flex-row items-center justify-between px-4 sm:px-6 pt-10 pb-14 bg-gradient-to-br from-[#5B3DF6] via-[#755FF5] to-[#02afa5]">
+        {/* Text Block */}
+        <div className="flex-1 flex flex-col gap-6 items-center md:items-start text-center md:text-left">
           <h1
-            className="font-extrabold text-4xl md:text-5xl lg:text-6xl text-white leading-tight drop-shadow-md"
-            style={{
-              fontFamily: "'Poppins', sans-serif",
-            }}
+            className="font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white leading-tight drop-shadow-md"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
           >
             <span className="text-[#FFE158] animate-pulse">PASS</span> Karo,{" "}
             <span className="text-[#FFE158] animate-bounce">EARN</span> Karo
           </h1>
 
           <p
-            className="text-2xl md:text-3xl font-semibold text-white tracking-tight italic"
+            className="text-lg sm:text-xl md:text-2xl font-semibold text-white tracking-tight italic"
             style={{
               fontFamily: "'Satisfy', cursive",
               textShadow: "0 2px 4px rgba(0,0,0,0.2)",
@@ -52,38 +39,25 @@ export default function HomePage() {
             🎒📚
           </p>
 
-          {/* <p
-      className="text-lg md:text-xl text-white/90 font-medium mt-2"
-      style={{
-        fontFamily: "'Nunito', sans-serif",
-      }}
-    >
-      Buy, sell & swap in your campus community.
-      <br />
-      <span className="text-[#FFE158] font-bold">
-        Save money. Save waste. Earn joy.
-      </span>
-    </p> */}
-
-          {/* BUTTONS */}
-          <div className="flex gap-4 mt-4">
+          {/* ACTION BUTTONS */}
+          <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full max-w-sm">
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-[#FFE158] hover:bg-[#ffd900] text-[#23185B] font-bold flex items-center gap-2 px-6 py-3 rounded-full shadow-lg transition-all text-base"
+              className="flex-1 bg-[#FFE158] hover:bg-[#ffd900] text-[#23185B] font-bold flex items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-full shadow-lg transition-all text-sm sm:text-base"
               onClick={() => router.push("/seller")}
             >
-              <PlusCircle size={20} />
+              <PlusCircle size={18} />
               List an item
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-white hover:bg-[#e0d5fa] text-[#5B3DF6] font-bold flex items-center gap-2 px-6 py-3 rounded-full shadow-lg transition-all text-base"
+              className="flex-1 bg-white hover:bg-[#e0d5fa] text-[#5B3DF6] font-bold flex items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-full shadow-lg transition-all text-sm sm:text-base"
               onClick={() => router.push("/buyer")}
             >
-              <Compass size={20} />
-              Browse for items
+              <Compass size={18} />
+              Browse
             </motion.button>
           </div>
         </div>
@@ -93,62 +67,41 @@ export default function HomePage() {
           <Image
             src="/student-illustration.svg"
             alt="Student illustration"
-            width={320}
-            height={320}
-            className="object-contain"
+            width={280}
+            height={280}
+            className="object-contain max-w-full"
             priority
           />
         </div>
       </section>
 
-      {/* FEATURED LISTINGS */}
-      <section className="w-full max-w-5xl px-6 pt-12 pb-10">
+      {/* Featured Listings */}
+      <section className="w-full max-w-5xl px-4 sm:px-6 pt-12 pb-10">
         <div className="bg-[#fff9e8] w-full rounded-2xl shadow-md py-8 px-6 flex flex-col">
-          <h2 className="text-2xl font-bold text-[#23185B] mb-7">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#23185B] mb-7">
             Featured Listings
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-7">
-            <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
-              <Image src="/icons/book.png" alt="Book" width={54} height={54} />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">
-                Textbooks
-              </span>
-              <span className="text-[#23185B]">$15</span>
-            </div>
-            <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
-              <Image
-                src="/coset.jpg"
-                alt="Game Console"
-                width={54}
-                height={54}
-              />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">
-                Co-Set
-              </span>
-              <span className="text-[#23185B]">₹700</span>
-            </div>
-            <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
-              <Image src="/laptop.jpg" alt="Book" width={54} height={54} />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">
-                Laptop
-              </span>
-              <span className="text-[#23185B]">₹10000</span>
-            </div>
-            <div className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-6 transition-transform hover:scale-105">
-              <Image
-                src="/icons/headphones.png"
-                alt="Headphones"
-                width={54}
-                height={54}
-              />
-              <span className="mt-2 font-semibold text-lg text-[#23185B]">
-                Headphones
-              </span>
-              <span className="text-[#23185B]">$30</span>
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {[
+              { img: "/icons/book.png", label: "Textbooks", price: "$15" },
+              { img: "/coset.jpg", label: "Co-Set", price: "₹700" },
+              { img: "/laptop.jpg", label: "Laptop", price: "₹10000" },
+              { img: "/icons/headphones.png", label: "Headphones", price: "$30" },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center bg-[#f7f4e8] shadow-sm rounded-xl p-5 transition-transform hover:scale-105"
+              >
+                <Image src={item.img} alt={item.label} width={54} height={54} />
+                <span className="mt-2 font-semibold text-sm sm:text-base text-[#23185B]">
+                  {item.label}
+                </span>
+                <span className="text-[#23185B] text-sm">{item.price}</span>
+              </div>
+            ))}
           </div>
-          <div className="mt-10 bg-[#ffedc2] text-center rounded-xl p-5 border border-[#ffd46b] shadow-md animate-pulse">
-            <p className="text-lg font-semibold text-[#23185B]">
+          <div className="mt-8 bg-[#ffedc2] text-center rounded-xl p-4 border border-[#ffd46b] shadow-md animate-pulse">
+            <p className="text-sm sm:text-base font-semibold text-[#23185B]">
               📞 For more information, contact us at{" "}
               <span className="text-[#D93D04]">8273145433</span>
             </p>
@@ -156,79 +109,64 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="w-full max-w-5xl px-6 pt-4 pb-10">
+      {/* How It Works */}
+      <section className="w-full max-w-5xl px-4 sm:px-6 pt-4 pb-10">
         <div className="bg-[#ffefa9] w-full rounded-2xl shadow-md py-8 px-6 flex flex-col">
-          <h2 className="text-2xl font-bold text-[#23185B] mb-7 px-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#23185B] mb-7 px-2">
             How It Works
           </h2>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-9">
-            <div className="flex flex-col items-center flex-1">
-              <div className="bg-[#5B3DF6] p-3 rounded-full mb-2">
-                <Image
-                  src="/icons/signup.png"
-                  alt="Sign Up"
-                  width={38}
-                  height={38}
-                />
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            {[
+              {
+                title: "Sign Up",
+                icon: "/icons/signup.png",
+                color: "bg-[#5B3DF6]",
+                desc: "Create an account with your student email",
+              },
+              {
+                title: "List Items",
+                icon: "/icons/list.png",
+                color: "bg-[#03B1AA]",
+                desc: "Upload your items for sale in just minutes",
+              },
+              {
+                title: "Connect",
+                icon: "/icons/connect.png",
+                color: "bg-[#FFE158]",
+                desc: "Chat with other students and arrange",
+              },
+            ].map((step, idx) => (
+              <div
+                key={idx}
+                className="flex flex-col items-center text-center flex-1"
+              >
+                <div className={`${step.color} p-3 rounded-full mb-2`}>
+                  <Image src={step.icon} alt={step.title} width={38} height={38} />
+                </div>
+                <div className="font-bold text-[#23185B] mb-1 text-base sm:text-lg">
+                  {step.title}
+                </div>
+                <div className="text-[#23185B] text-sm font-medium">{step.desc}</div>
               </div>
-              <div className="font-bold text-[#23185B] mb-1">Sign Up</div>
-              <div className="text-[#23185B] text-center text-sm font-medium">
-                Create an account
-                <br />
-                with your student email
-              </div>
-            </div>
-            <div className="flex flex-col items-center flex-1">
-              <div className="bg-[#03B1AA] p-3 rounded-full mb-2">
-                <Image
-                  src="/icons/list.png"
-                  alt="List Items"
-                  width={38}
-                  height={38}
-                />
-              </div>
-              <div className="font-bold text-[#23185B] mb-1">List Items</div>
-              <div className="text-[#23185B] text-center text-sm font-medium">
-                Upload your items for
-                <br />
-                sale in just minutes
-              </div>
-            </div>
-            <div className="flex flex-col items-center flex-1">
-              <div className="bg-[#FFE158] p-3 rounded-full mb-2">
-                <Image
-                  src="/icons/connect.png"
-                  alt="Connect"
-                  width={38}
-                  height={38}
-                />
-              </div>
-              <div className="font-bold text-[#23185B] mb-1">Connect</div>
-              <div className="text-[#23185B] text-center text-sm font-medium">
-                Chat with other
-                <br />
-                students and arrange
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="w-full max-w-5xl px-6 pt-2 pb-10">
-        <div className="bg-white shadow px-6 py-5 flex items-center gap-4 rounded-2xl">
+      {/* Testimonials */}
+      <section className="w-full max-w-5xl px-4 sm:px-6 pt-2 pb-10">
+        <div className="bg-white shadow px-6 py-5 flex flex-col sm:flex-row items-center gap-4 rounded-2xl">
           <Image
             src="/icons/student1.svg"
             alt="Testimonial user"
             width={48}
             height={48}
           />
-          <span className="text-base text-[#23185B] font-medium">
+          <span className="text-base text-[#23185B] font-medium text-center sm:text-left">
             I found a great deal on a used textbook! The process was super easy
           </span>
           <button
-            className="ml-auto bg-[#5B3DF6] hover:bg-[#3b278e] transition text-white font-bold px-7 py-2 rounded-full text-base shadow"
+            className="mt-3 sm:mt-0 sm:ml-auto bg-[#5B3DF6] hover:bg-[#3b278e] transition text-white font-bold px-6 py-2 rounded-full text-sm shadow"
             onClick={() => router.push("/seller")}
           >
             List an item
@@ -236,7 +174,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WISHLIST SECTION */}
+      {/* Wishlist */}
       <motion.section
         className="w-full flex justify-center mt-10 px-4"
         initial={{ opacity: 0, y: 40 }}
@@ -247,12 +185,11 @@ export default function HomePage() {
         <div className="w-full max-w-2xl bg-[#fff9e8] border-2 rounded-3xl shadow-lg p-7 flex flex-col items-center">
           <div className="flex items-center gap-2 mb-2">
             <Heart size={28} className="text-pink-400" />
-            <h2 className="text-2xl font-bold text-[#5B3DF6]">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#5B3DF6]">
               Wish for Something?
             </h2>
           </div>
-          <p className="text-[#7c689c] text-base mb-6 text-center">
-            Didn’t find what you want?{" "}
+          <p className="text-[#7c689c] text-sm sm:text-base mb-6 text-center">
             <span className="text-[#e11d48] font-semibold">
               Submit your wish
             </span>{" "}
@@ -264,20 +201,20 @@ export default function HomePage() {
               e.preventDefault();
               const form = e.target as HTMLFormElement;
               const formData = new FormData(form);
-              const itemRaw = formData.get("item");
-              const item = typeof itemRaw === "string" ? itemRaw.trim() : "";
-              const detailsRaw = formData.get("details");
-              const details =
-                typeof detailsRaw === "string" ? detailsRaw.trim() : "";
+              const item = formData.get("item")?.toString().trim() || "";
+              const details = formData.get("details")?.toString().trim() || "";
+
               if (!item) {
                 alert("Please enter what you're looking for");
                 return;
               }
+
               const res = await fetch("/api/wishlist", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ item, details }),
               });
+
               if (res.ok) {
                 alert("✅ Your wish has been submitted!");
                 form.reset();
@@ -289,19 +226,19 @@ export default function HomePage() {
             <input
               name="item"
               type="text"
-              placeholder="What do you need? (e.g., Lamp, Calculator)"
-              className="w-full px-5 py-3 rounded-full bg-white border-2 border-pink-100 focus:border-pink-400 text-[#402973] placeholder-[#a78bfa] shadow-sm focus:outline-none text-base"
+              placeholder="What do you need? (e.g., Table, Calculator)"
+              className="w-full px-5 py-3 rounded-full bg-white border-2 border-pink-100 focus:border-pink-400 text-[#402973] placeholder-[#a78bfa] shadow-sm focus:outline-none text-sm sm:text-base"
               required
             />
             <textarea
               name="details"
               rows={2}
-              placeholder="Any details? (color, brand, etc.) (optional)"
-              className="w-full px-5 py-3 rounded-2xl bg-white border-2 border-pink-100 focus:border-pink-400 text-[#402973] placeholder-[#a78bfa] shadow-sm focus:outline-none text-base"
+              placeholder="Any details? Color, brand, etc. (optional)"
+              className="w-full px-5 py-3 rounded-2xl bg-white border-2 border-pink-100 focus:border-pink-400 text-[#402973] placeholder-[#a78bfa] shadow-sm focus:outline-none text-sm sm:text-base"
             />
             <button
               type="submit"
-              className="mt-1 px-8 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition shadow font-bold text-white text-base flex items-center gap-2 hover:scale-105 active:scale-95"
+              className="mt-1 px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition shadow font-bold text-white text-sm sm:text-base flex items-center gap-2 hover:scale-105 active:scale-95"
             >
               <Heart size={18} className="inline-block" />
               Submit Wish
@@ -310,13 +247,11 @@ export default function HomePage() {
         </div>
       </motion.section>
 
-      {/* FOOTER */}
-      <footer className="w-full pb-7 flex flex-col items-center gap-2 text-[#736a6a] text-[13px]">
+      {/* Footer */}
+      <footer className="w-full pb-7 flex flex-col items-center gap-2 text-[#736a6a] text-[13px] mt-10">
         <motion.button
           whileHover={{ scale: 1.05, color: "#03B1AA" }}
-          onClick={() =>
-            (window.location.href = "mailto:freakyakkmu@gmail.com")
-          }
+          onClick={() => (window.location.href = "mailto:freakyakkmu@gmail.com")}
           className="flex items-center gap-2 text-[#5B3DF6] font-semibold mt-2 transition-colors"
         >
           <Mail size={18} />
