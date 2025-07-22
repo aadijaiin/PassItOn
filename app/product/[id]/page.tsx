@@ -1,8 +1,9 @@
-import { use } from "react";
+import { notFound } from "next/navigation";
 import { connectToDatabase } from "@/lib/db";
 import { Product } from "@/models/Product";
+import ChatButton from "@/components/ChatButton";
 
-// Helper for colored category badge
+// Helper function
 const categoryColor = (cat: string) => {
   switch (cat.toLowerCase()) {
     case "books":
@@ -22,6 +23,7 @@ const categoryColor = (cat: string) => {
 
 type ProductType = {
   _id: string;
+  userId: string;
   title: string;
   price: string;
   category: string;
@@ -34,38 +36,38 @@ type ProductType = {
 
 async function getProduct(id: string): Promise<ProductType | null> {
   await connectToDatabase();
-  const product = await Product.findById(id).lean();
-  return product as ProductType | null;
+  const product = await Product.findById(id).lean<ProductType>();
+  if (!product) return null;
+
+  return {
+    _id: product._id.toString(),
+    userId: product.userId.toString(),
+    title: product.title,
+    price: product.price,
+    category: product.category,
+    image: product.image,
+    college: product.college,
+    phone: product.phone,
+    email: product.email,
+    sold: product.sold,
+  };
 }
 
-export default function ProductDetail({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params);
-  const product = use(getProduct(id));
+interface ProductDetailProps {
+  params: { id: string };
+}
+
+export default async function ProductDetail({ params }: ProductDetailProps) {
+  const { id } = await params; // ✅ Destructure first
+  const product = await getProduct(id);
 
   if (!product) {
-    return (
-      <div className="min-h-screen bg-[#faf7ed] flex items-center justify-center">
-        <div className="bg-white/90 rounded-2xl px-8 py-12 shadow-xl border border-pink-300 flex flex-col items-center">
-          <span className="text-5xl mb-3">😢</span>
-          <p className="text-2xl font-bold text-pink-500 mb-1">
-            Product Not Found
-          </p>
-          <p className="text-[#7c689c] text-center">
-            Sorry, we couldn&apos;t locate that item.
-          </p>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
     <div className="min-h-screen bg-[#faf7ed] flex flex-col items-center justify-center py-10 px-3">
       <div className="w-full max-w-lg bg-white/90 rounded-3xl shadow-2xl border-2 border-[#E0D5FA] p-7 flex flex-col items-center relative">
-        {/* Sold badge */}
         {product.sold && (
           <span className="absolute top-5 right-5 flex items-center gap-1 px-4 py-1 rounded-full bg-green-200 text-green-700 font-bold text-xs z-10">
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
@@ -80,6 +82,7 @@ export default function ProductDetail({
             Sold
           </span>
         )}
+
         <div className="w-full flex flex-col items-center gap-3">
           <div className="w-64 h-64 bg-[#faf7ed] rounded-2xl shadow border-2 border-[#f3e8ff] flex items-center justify-center mb-6 overflow-hidden">
             <img
@@ -101,13 +104,11 @@ export default function ProductDetail({
               {product.category}
             </span>
           </div>
-
           <span className="text-sm text-[#7c689c] mb-4 font-medium">
             Posted from: {product.college}
           </span>
         </div>
 
-        {/* Contact */}
         <div className="w-full flex flex-col gap-2 mt-2">
           {product.phone && (
             <a
@@ -127,8 +128,11 @@ export default function ProductDetail({
               ✉️ Email: {product.email}
             </a>
           )}
+          <ChatButton sellerId={product.userId} />
         </div>
       </div>
     </div>
   );
 }
+
+export const dynamic = 'force-dynamic';

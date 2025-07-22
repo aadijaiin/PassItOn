@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { connectToDatabase } from '@/lib/db';
 import { User } from '@/models/User';
+import mongoose from 'mongoose';
 
 export const runtime = 'nodejs'; // Ensure Node.js runtime (not edge)
 
@@ -10,11 +11,11 @@ export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
   console.log('Login attempt:', { email, password });
 
-  await connectToDatabase().then(() => console.log('Connected to database'));
+  await connectToDatabase().then(() => console.log('Connected to database, db name :', mongoose.connection.name));
 
   const user = await User.findOne({ email });
   if (!user) {
-    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    return NextResponse.json({ error: 'no user' }, { status: 401 });
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
