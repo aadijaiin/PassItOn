@@ -1,46 +1,109 @@
-// app/chat/[chatId]/page.tsx
-
 import { connectToDatabase } from "@/lib/db";
 import { Chat } from "@/models/Chat";
-import  Message  from "@/models/Message";
+import {Message} from "@/models/Message";
+import ChatClient from "./ChatClient";
+import { headers } from "next/headers";
+import type { Message as MessageType } from "@/types/message";
+import type { Types } from "mongoose";
 
 type Props = {
   params: { chatId: string };
 };
 
-export default async function ChatPage({ params }: Props) {
+type LeanChat = {
+  _id: string;
+  participants: string[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export default async function ChatPage(props: Props) {
   await connectToDatabase();
 
-  const chat = await Chat.findById(params.chatId).lean();
-  const messages = await Message.find({ chatId: params.chatId }).sort({ createdAt: 1 }).lean();
+  const { chatId } = await props.params;
 
-  if (!chat) return <div>Chat not found.</div>;
+  const chatDoc = await Chat.findById(chatId).lean<{
+    _id: Types.ObjectId;
+    participants: (string | Types.ObjectId)[];
+    createdAt: Date;
+    updatedAt: Date;
+  }>();
+
+  if (!chatDoc) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-xl shadow-md border border-gray-300">
+          <h2 className="text-xl font-semibold mb-2 text-red-500">Chat not found</h2>
+          <p className="text-gray-600">Sorry, the chat you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const chat: LeanChat = {
+    _id: chatDoc._id.toString(),
+    participants: chatDoc.participants.map((p) =>
+      typeof p === "string" ? p : p.toString()
+    ),
+    createdAt: chatDoc.createdAt.toISOString(),
+    updatedAt: chatDoc.updatedAt.toISOString(),
+  };
+
+  // ✅ Don't await headers() — it's synchronous
+  const headersList = await headers();
+  const cookie = headersList.get("cookie") || "";
+
+  const meRes = await fetch("http://localhost:3000/api/auth/me", {
+    headers: {
+      Cookie: cookie,
+    },
+    cache: "no-store",
+  });
+
+  const meJson = await meRes.json();
+
+  // ✅ Extract `id` from `meJson.user`
+  const currentUserId = meJson.user?.userId;
+
+  // ✅ Ensure currentUserId exists
+  if (!currentUserId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-xl shadow-md border border-gray-300">
+          <h2 className="text-xl font-semibold mb-2 text-red-500">Authentication error</h2>
+          <p className="text-gray-600">You must be logged in to access this chat.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const receiverId =
+    chat.participants[0] === currentUserId
+      ? chat.participants[1]
+      : chat.participants[0];
+
+  const rawMessages = await Message.find({ chatId })
+    .sort({ timestamp: 1 })
+    .lean<MessageType[]>();
+
+  const messages: MessageType[] = rawMessages.map((m) => ({
+  _id: m._id.toString(),
+  senderId: m.senderId.toString(),
+  receiverId: m.receiverId.toString(),
+  content: m.content,
+  timestamp: m.timestamp ? new Date(m.timestamp).toISOString() : new Date().toISOString(),
+  read: m.read,
+}));
+
+
+  console.log("Parent senderId:", currentUserId, "receiverId:", receiverId);
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Chat with Seller</h2>
-      <div className="border p-4 rounded bg-gray-100 space-y-2 max-h-[60vh] overflow-y-auto">
-        {messages.map((msg: any, idx: number) => (
-          <div key={idx} className="p-2 rounded bg-white shadow-sm">
-            <p className="text-sm font-medium text-gray-700">{msg.senderId}</p>
-            <p className="text-base">{msg.text}</p>
-          </div>
-        ))}
-      </div>
-      <form className="mt-4 flex gap-2">
-        <input
-          type="text"
-          placeholder="Type a message..."
-          className="flex-grow border px-3 py-2 rounded"
-          name="message"
-        />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-[#03B1AA] text-white rounded hover:bg-teal-700"
-        >
-          Send
-        </button>
-      </form>
-    </div>
+    <ChatClient
+      chatId={chatId}
+      initialMessages={messages}
+      receiverId={receiverId}
+      senderId={currentUserId}
+    />
   );
 }
