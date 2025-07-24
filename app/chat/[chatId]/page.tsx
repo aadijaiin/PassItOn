@@ -17,10 +17,17 @@ type LeanChat = {
   updatedAt: string;
 };
 
-export default async function ChatPage(props: Props) {
+export default async function ChatPage({
+  params,
+}: {
+  params: Promise<{ chatId: string }>;
+}) {
   await connectToDatabase();
 
-  const { chatId } = await props.params;
+  const { chatId } = await params;
+
+
+
 
   const chatDoc = await Chat.findById(chatId).lean<{
     _id: Types.ObjectId;

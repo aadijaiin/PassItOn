@@ -54,7 +54,7 @@ async function getProduct(id: string): Promise<ProductType | null> {
 }
 
 interface ProductDetailProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ProductDetail({ params }: ProductDetailProps) {
