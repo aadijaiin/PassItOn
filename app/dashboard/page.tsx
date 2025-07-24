@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { CheckCircle, XCircle, Loader2, Eye, Heart } from 'lucide-react';
+import { CheckCircle, XCircle, Loader2, Eye } from 'lucide-react';
 import { UserInfoCard } from '@/components/UserInfoCard';
+import { formatDistanceToNow } from 'date-fns';
 
 type Product = {
   _id: string;
@@ -50,7 +51,6 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#faf7ed] flex flex-col items-center py-10 px-4">
-      
       <motion.h1
         className="text-3xl sm:text-4xl font-black text-[#5B3DF6] mb-7 text-center"
         initial={{ opacity: 0, y: -18 }}
@@ -58,7 +58,16 @@ export default function DashboardPage() {
       >
         Dashboard
       </motion.h1>
+      
       <UserInfoCard />
+
+      <button
+        onClick={() => router.push('/dashboard/messages')}
+        className="mt-6 mb-6 px-6 py-3 bg-[#5B3DF6] hover:bg-[#4a31d6] text-white font-semibold rounded-full shadow"
+      >
+        View Chats
+      </button>
+
       <div className="w-full max-w-5xl bg-white/90 rounded-3xl shadow-2xl border-2 border-[#E0D5FA] p-8 flex flex-col">
         <h2 className="text-xl font-bold text-[#23185B] mb-5">My Listings</h2>
         {loading ? (
@@ -100,7 +109,10 @@ export default function DashboardPage() {
                 />
                 <span className="mt-1 font-semibold text-lg text-[#23185B] text-center">{product.title}</span>
                 <span className="text-[#23185B] font-bold">₹{product.price}</span>
-                <span className="text-xs text-[#7c689c] mb-2">{product.category}</span>
+                <span className="text-xs text-[#7c689c] mb-1">{product.category}</span>
+                <span className="text-xs text-[#9c8fb6] italic">
+                  Listed {formatDistanceToNow(new Date(product.createdAt), { addSuffix: true })}
+                </span>
                 <div className="flex gap-2 mt-2">
                   <button
                     className={`px-4 py-2 rounded-full font-bold shadow transition text-white ${

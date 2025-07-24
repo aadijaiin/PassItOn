@@ -20,27 +20,20 @@ export default function ChatClient({
   const [newMessage, setNewMessage] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Polling every 3s
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
         const res = await fetch(`/api/messages?user1=${senderId}&user2=${receiverId}`);
-        if (!res.ok) {
-          console.error("Polling failed:", await res.text());
-          return;
-        }
-
+        if (!res.ok) return console.error("Polling failed:", await res.text());
         const data = await res.json();
         setMessages(data.messages);
       } catch (err) {
         console.error("Polling error:", err);
       }
     }, 2000);
-
     return () => clearInterval(interval);
   }, [senderId, receiverId]);
 
-  // Scroll to bottom on new message
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -78,18 +71,24 @@ export default function ChatClient({
   };
 
   return (
-    <div className="max-w-xl mx-auto flex flex-col gap-4">
+    <div className="flex flex-col h-screen bg-gray-100">
+      {/* Header */}
+      <div className="bg-[#7C3AED] text-white px-6 py-4 text-lg font-semibold shadow">
+        Chat with Seller
+      </div>
+
+      {/* Messages */}
       <div
         ref={containerRef}
-        className="chat-container border p-4 rounded bg-gray-100 space-y-2 max-h-[60vh] overflow-y-auto"
+        className="flex-1 px-4 py-4 overflow-y-auto space-y-3"
       >
         {messages.map((msg) => (
           <div
             key={msg._id}
-            className={`p-2 rounded-md max-w-[75%] ${
+            className={`w-fit max-w-[75%] px-4 py-2 rounded-xl shadow ${
               msg.senderId === senderId
-                ? "bg-blue-500 text-white ml-auto"
-                : "bg-gray-300 text-black mr-auto"
+                ? "ml-auto bg-[#7C3AED] text-white rounded-br-none"
+                : "mr-auto bg-white text-gray-900 rounded-bl-none"
             }`}
           >
             {msg.content}
@@ -97,10 +96,11 @@ export default function ChatClient({
         ))}
       </div>
 
-      <div className="flex gap-2">
+      {/* Input */}
+      <div className="flex items-center gap-3 px-4 py-3 bg-white border-t">
         <input
           type="text"
-          className="flex-1 border rounded p-2"
+          className="flex-1 bg-gray-100 rounded-full px-5 py-2 outline-none focus:ring-2 focus:ring-[#7C3AED]"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -110,7 +110,7 @@ export default function ChatClient({
         />
         <button
           onClick={handleSend}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-[#FACC15] hover:bg-yellow-400 text-black font-medium px-5 py-2 rounded-full transition"
         >
           Send
         </button>
